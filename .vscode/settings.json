@@ -1,0 +1,7 @@
+{
+    "java.completion.enabled": false,
+    "java.debug.settings.enableRunDebugCodeLens": false,
+    "java.test.editor.enableShortcuts": false,
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.home": "/home/darren/.sdkman/candidates/java/current"
+}

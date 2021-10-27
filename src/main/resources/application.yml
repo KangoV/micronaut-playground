@@ -1,0 +1,15 @@
+micronaut:
+  application:
+    name: db
+datasources:
+  default:
+    url: ${DB_URL:`jdbc:postgresql://localhost/test`}
+    driverClassName: org.postgresql.Driver
+    username: ${DB_USERNAME:`postgres`}
+    password: ${DB_PASSWORD:`postgres`}
+    schema-generate: NONE
+    dialect: POSTGRES
+flyway:
+  datasources:
+    default:
+      enabled: true

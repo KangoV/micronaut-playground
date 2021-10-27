@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: io.belldj.micronaut
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, assertj, data, data-jdbc, flyway, gcp-pubsub, graalvm, gradle, h2, http-client, java, java-application, jdbc-hikari, junit, logback, netty-server, problem-json, reactor, reactor-http-client, readme, shade, testcontainers, yaml]
