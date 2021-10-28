@@ -13,7 +13,7 @@ public record ClientService(ClientStore store) {
 
   private static final Logger log = LoggerFactory.getLogger(ClientService.class);
 
-  public Client addClient(Client client) {
+  public Client saveClient(Client client) {
     return store.add(client);
   }
 
@@ -23,10 +23,6 @@ public record ClientService(ClientStore store) {
 
   public Optional<Client> findClient(UUID id) {
     return store.findById(id);
-  }
-
-  public Client saveClient(Client client) {
-    return store.save(client);
   }
 
 }

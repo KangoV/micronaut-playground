@@ -1,5 +1,6 @@
 package io.belldj.pg.mn.util;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.immutables.value.Value;
 import org.immutables.value.Value.Style.ImplementationVisibility;
 
@@ -29,8 +30,8 @@ import java.lang.annotation.Target;
     typeImmutable = "*",
     typeAbstract = "*Spec",
     depluralize = true,
-    visibility = ImplementationVisibility.PUBLIC, // Generated class will be always public
-    defaults = @Value.Immutable(copy = false) // Disable copy methods by default
+    visibility = ImplementationVisibility.PUBLIC,
+    additionalJsonAnnotations = { Schema.class }
 )
 public @interface ImmutableStyle { // empty
 }

@@ -16,10 +16,9 @@
   <logger name="org.testcontainers" level="warn" />
   <logger name="org.flywaydb" level="warn" />
   <logger name="com.zaxxer.hikari" level="warn" />
-  <logger name="io.micronaut.data.query" level="info" />
-  <logger name="io.micronaut.http" level="trace" />
-  <logger name="io.belldj" level="debug" />
+  <logger name="io.micronaut.data.query" level="warn" />
+  <logger name="io.micronaut.http" level="info" />
+  <logger name="io.belldj" level="warn" />
 
-  <logger name="io.micronaut.data.query" level="trace" /> <!-- SQL logging -->
 
 </configuration>

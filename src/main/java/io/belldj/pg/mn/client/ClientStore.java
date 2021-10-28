@@ -74,19 +74,16 @@ public record ClientStore(ClientDao clientDao, InfraClientMapper clientMapper) {
   }
 
   Client add(Client client) {
-    log.debug("Adding client: {}", client);
-    var toAdd = clientMapper.map(client);
-    var added = clientDao.save(toAdd);
-    var result = clientMapper.map(added);
-    return result;
-  }
-
-  Client save(Client client) {
-    log.debug("Adding client: {}", client);
-    var toSave = clientMapper.map(client);
-    var saved = clientDao.save(toSave);
-    var result = clientMapper.map(saved);
-    return result;
+    ClientE e = clientMapper.map(client);
+    ClientE f;
+    if (clientDao.existsById(client.getId())) { // update
+      log.debug("Saving {}", client);
+      f = clientDao.update(e);
+    } else { // insert
+      log.debug("Adding {}", client);
+      f = clientDao.save(e);
+    }
+    return clientMapper.map(f);
   }
 
 }

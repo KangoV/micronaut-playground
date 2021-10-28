@@ -14,11 +14,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Value.Immutable
 @ImmutableStyle
 public
 interface ClientSpec extends DomainEntity {
+  @Value.Default default UUID getId() { return UUID.randomUUID(); }
+  @Value.Default default Integer getVersion() { return Integer.valueOf(0); }
+  @Value.Default default LocalDateTime getCreated() { return LocalDateTime.now(); }
+  @Value.Default default Optional<LocalDateTime> getUpdated() { return Optional.empty(); }
   String                  getForename();
   Optional<String>        getMiddleName();
   String                  getSurname();

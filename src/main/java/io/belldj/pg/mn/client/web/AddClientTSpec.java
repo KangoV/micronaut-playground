@@ -12,6 +12,7 @@ import org.immutables.value.Value;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 /*
  * The *TSpec interfaces should not have any extra fields as that would then

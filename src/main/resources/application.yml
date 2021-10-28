@@ -1,9 +1,9 @@
 micronaut:
   application:
-    name: db
+    name: payground-micronaut
 datasources:
   default:
-    url: ${DB_URL:`jdbc:postgresql://localhost/test`}
+    url: ${DB_URL:`jdbc:postgresql://localhost/playground`}
     driverClassName: org.postgresql.Driver
     username: ${DB_USERNAME:`postgres`}
     password: ${DB_PASSWORD:`postgres`}
@@ -13,3 +13,6 @@ flyway:
   datasources:
     default:
       enabled: true
+jackson:
+  serialization:
+    writeDatesAsTimestamps: false

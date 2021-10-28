@@ -13,8 +13,8 @@ import java.util.UUID;
 
 public interface BaseMapper {
 
-//    default UUID stringToUUID(String t) { return UUID.fromString(t); }
-//    default String UUIDToString(UUID t) { return t.toString(); }
+    default UUID stringToUUID(String t) { return UUID.fromString(t); }
+    default String uUIDToString(UUID t) { return t.toString(); }
 
     default Optional<Sex>           wrapSex(Sex t)                     { return ofNullable(t); }
     default Optional<String>        wrapString(String t)               { return ofNullable(t); }

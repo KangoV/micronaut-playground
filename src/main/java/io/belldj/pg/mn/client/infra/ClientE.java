@@ -21,9 +21,9 @@ import java.util.UUID;
 public record ClientE(
 
   // standard entity fields
-  @Id @AutoPopulated     UUID          id,
-//@Nullable @Version     Integer       version,
-  @Nullable              Integer       version,
+  @Id                    UUID          id,
+  @Version               Integer       version,
+//  @Nullable              Integer       version,
   @DateCreated           LocalDateTime created,
   @Nullable @DateUpdated LocalDateTime updated,
 

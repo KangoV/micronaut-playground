@@ -9,11 +9,13 @@ import io.belldj.pg.mn.client.api.MaritalStatus;
 import io.belldj.pg.mn.client.api.Sex;
 import io.belldj.pg.mn.util.ImmutableStyle;
 import io.micronaut.core.annotation.Nullable;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.immutables.value.Value;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 /*
  * The *TSpec interfaces should not have any extra fields as that would then
@@ -24,7 +26,11 @@ import java.util.List;
 @Value.Immutable
 @ImmutableStyle
 @JsonDeserialize(builder = ClientT.Builder.class)
+@Schema(name="Client", description="Client description")
 public interface ClientTSpec {
+  default ClientT change(UnaryOperator<ClientT.Builder> builderFunc) {
+    return builderFunc.apply(ClientT.builder().from(this)).build();
+  }
             String        getId();
             Integer       getVersion();
             LocalDateTime getCreated();
@@ -51,6 +57,5 @@ public interface ClientTSpec {
   @Nullable MaritalStatus getMaritalStatus();
   @Nullable Employment    getEmployment();
             ClientStatus  getStatus();
-
 
 }

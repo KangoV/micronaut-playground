@@ -2,9 +2,9 @@ version: '3.7'
 services:
   app:
     build: ./
-    image: mntest:1.0.0
+    image: playground-micronaut:1.0.0
     environment:
-      - DB_URL=jdbc:postgresql://db/test
+      - DB_URL=jdbc:postgresql://db/playground
       - DB_USER=postgres
       - DB_PASSWORD=postgres
     ports:
@@ -16,7 +16,7 @@ services:
     container_name: postgres
     restart: always
     environment:
-      - POSTGRES_DB=test
+      - POSTGRES_DB=playground
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     logging:

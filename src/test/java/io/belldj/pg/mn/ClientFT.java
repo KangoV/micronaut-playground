@@ -9,10 +9,7 @@ import io.belldj.pg.mn.client.api.PhoneType;
 import io.belldj.pg.mn.client.web.AddClientT;
 import io.belldj.pg.mn.client.web.ClientT;
 import io.belldj.pg.mn.client.web.PhoneT;
-import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.PathVariable;
-import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
@@ -29,10 +26,10 @@ class ClientFT {
 
   @Client("/clients")
   interface Clients {
-    @Get          List<ClientT> all();
+    @Get          List<ClientT> getAll();
     @Get("/{id}") ClientT       get(@PathVariable String id);
-    @Post         ClientT       add(@Body AddClientT addClient);
-    @Post         ClientT       save(@Body ClientT client);
+    @Post         ClientT       post(@Body AddClientT addClient);
+    @Put("/{id}") ClientT       put(@Body ClientT client, String id);
   }
 
   private static final String CLIENT_ID_DARREN = "d967da01-9d66-4623-9762-68506151006c";
@@ -72,7 +69,7 @@ class ClientFT {
   @Test
   @DisplayName("GET all clients")
   void testGetAll() {
-    var allClients = this.clients.all();
+    var allClients = this.clients.getAll();
     assertThat(allClients)
       .extracting("id", "forename")
       .containsExactly(
@@ -82,30 +79,27 @@ class ClientFT {
   }
 
   @Test
-  @DisplayName("PUT new client")
+  @DisplayName("POST new client")
   void testAdd() { // POST
     var command = AddClientT.builder()
       .forename("darren")
       .surname("bell")
       .status(ACTIVE)
       .build();
-    var clientT = this.clients.add(command);
-    assertThat(clientT)
-      .extracting("forename", "surname")
-      .containsExactly("darren", "bell");
+    var clientT = this.clients.post(command);
+    assertThat(clientT).extracting("forename", "surname").containsExactly("darren", "bell");
   }
 
   @Test
   @DisplayName("PUT existing client")
   void testSaveExists() { // PUT
-    var client = clients.get(CLIENT_ID_DARREN);
-    var command = AddClientT.builder()
-      .forename("mia")
-      .surname("bell")
-      .status(ACTIVE)
-      .build();
-    var clientT = this.clients.add(command);
-    assertThat(clientT).extracting("forename", "surname").containsExactly("mia", "bell");
+    var oldClient = clients.get(CLIENT_ID_DARREN);
+    var changedClient = oldClient.change(c -> c.preferredName("Dazza"));
+    var newClient = this.clients.put(changedClient, oldClient.getId());
+    assertSoftly(softly -> {
+      softly.assertThat(changedClient).extracting("forename", "preferredName").containsExactly("Darren", "Dazza");
+      softly.assertThat(newClient.getVersion()).isGreaterThan(oldClient.getVersion());
+    });
   }
 
   @Test
@@ -118,7 +112,7 @@ class ClientFT {
       .status(ACTIVE)
       .phones(List.of(PhoneT.builder().name("HOME").number("+1234123456").build()))
       .build();
-    var clientT = this.clients.add(command);
+    var clientT = this.clients.post(command);
     assertSoftly(softly -> {
       softly.assertThat(clientT)
         .extracting("forename", "surname")
