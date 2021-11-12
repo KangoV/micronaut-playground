@@ -2,6 +2,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0"
     id("io.micronaut.application") version "2.0.4"
     id("com.adarshr.test-logger") version "2.0.0"
+    id("com.google.cloud.tools.jib") version "2.8.0"
 }
 
 version = "0.1.0"
@@ -64,14 +65,22 @@ dependencies {
 
 }
 
+jib {
+    to {
+        image = "playground-micronaut:1.0.0"
+    }
+    from {
+        image = "registry://openjdk:17-jdk-alpine"
+    }
+}
 
 application {
     mainClass.set("io.belldj.pg.mn.Application")
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion("16")
-    targetCompatibility = JavaVersion.toVersion("16")
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
 }
 
 compileJava {
