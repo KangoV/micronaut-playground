@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: playground-app
+spec:
+  selector:
+    matchLabels:
+      app: playground-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: playground-app
+    spec:
+      containers:
+        - name: playground-app
+          image: playground-micronaut:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - configMapRef:
+                name: playground-app-config

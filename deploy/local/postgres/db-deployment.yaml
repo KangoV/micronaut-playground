@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: playground-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: playground-db
+  template:
+    metadata:
+      labels:
+        app: playground-db
+    spec:
+      containers:
+        - name: playground-db
+          image: postgres:10.5-alpine
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: playground-db-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: playground-db
+      volumes:
+        - name: playground-db
+          persistentVolumeClaim:
+            claimName: playground-db-pv-claim

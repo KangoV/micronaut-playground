@@ -2,11 +2,15 @@ package io.belldj.pg.mn.client.web;
 
 import io.belldj.pg.mn.client.Client;
 import io.belldj.pg.mn.client.ClientService;
+import io.belldj.pg.mn.client.web.AddClientT;
+import io.belldj.pg.mn.client.web.ClientT;
 import io.belldj.pg.mn.domain.BaseMapper;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
 import io.micronaut.problem.HttpStatusType;
+import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.annotation.ExecuteOn;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -39,6 +43,7 @@ public record ClientController(ClientService service, WebClientMapper clientMapp
    * Returns a list of all clients
    * @return the list of clients
    */
+  @ExecuteOn(TaskExecutors.IO)
   @Get(produces = MediaType.APPLICATION_JSON)
   List<ClientT> all() {
     return service.findAllClients().stream().map(clientMapper::map).toList();
@@ -48,6 +53,7 @@ public record ClientController(ClientService service, WebClientMapper clientMapp
    * Returns the client for the provided id
    * @return the matching client
    */
+  @ExecuteOn(TaskExecutors.IO)
   @Get(uri = "/{id}", produces = MediaType.APPLICATION_JSON)
   @ApiResponse(responseCode = "404", description = "Client not found")
   ClientT find(@PathVariable String id) {
@@ -69,6 +75,7 @@ public record ClientController(ClientService service, WebClientMapper clientMapp
    * @param newClient new client
    * @return the newly registered client
    */
+  @ExecuteOn(TaskExecutors.IO)
   @Post(produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
   ClientT add(@Body AddClientT newClient) {
     return clientMapper.map(service.saveClient(clientMapper.map(newClient)));
@@ -81,6 +88,7 @@ public record ClientController(ClientService service, WebClientMapper clientMapp
    * @param id of the client to update
    * @return the updated client
    */
+  @ExecuteOn(TaskExecutors.IO)
   @Put(uri = "/{id}", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
   ClientT save(@Body ClientT client, @PathVariable String id) {
     if (!id.equals(client.getId())) {

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: playground-db-config
+  labels:
+    app: playground-db
+data:
+  POSTGRES_DB: playground
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
