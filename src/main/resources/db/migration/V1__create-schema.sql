@@ -30,8 +30,8 @@ CREATE TABLE client (
   status             VARCHAR(32)   NOT NULL
 );
 INSERT INTO client (id,version,created,forename,surname,phones,email,telephone,sex,status)
-    VALUES('d967da01-9d66-4623-9762-68506151006c', 0, CURRENT_TIMESTAMP, 'Darren', 'Bell', 'HOME:+1234123456,WORK:+1234123456', 'djb@nodomain', '+441234123456' , 'MALE', 'ACTIVE');
+    VALUES('d967da01-9d66-4623-9762-68506151006c', 0, CURRENT_TIMESTAMP, 'David', 'Ball', 'HOME:+1234123456,WORK:+1234123456', 'david.ball@nodomain', '+441234123456' , 'MALE', 'ACTIVE');
 INSERT INTO client (id,version,created,forename,surname,email,telephone,sex,status)
-    VALUES('d967da01-9d66-4623-9762-68506151006d', 0, CURRENT_TIMESTAMP, 'Theresa', 'Bell', 'trb@nodomain', '+441234123456' , 'FEMALE', 'SUSPENDED');
+    VALUES('d967da01-9d66-4623-9762-68506151006d', 0, CURRENT_TIMESTAMP, 'Sarah', 'Ball', 'sarah.ball@nodomain', '+441234123456' , 'FEMALE', 'SUSPENDED');
 
 commit;

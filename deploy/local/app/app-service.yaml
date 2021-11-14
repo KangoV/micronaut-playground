@@ -5,7 +5,7 @@ metadata:
   labels:
     app: playground-app
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - port: 8080
   selector:
