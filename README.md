@@ -11,12 +11,41 @@ The main libraries are:
 * Micronaut (of course)
 * Immutables
 * Mapstruct
+* Kubernetes
+* Kind
+
+## Main Goals
+
+* Keep the development experience simple
+* Easily spin up locally
+* Learn new technologies
+
+## The future
+
+* Spilt into multiple modules (services)
+* Introduce messaging (Kafka)
+* Full integration tests will always run locally
 
 ## Build/Run
 
 The only Kubenetes implementationm I have used so far is Kind. To install, follow the instruction at https://kind.sigs.k8s.io/docs/user/quick-start/. Once installed follow the below instructions:
 
 ### Linux/MacOs
+
+#### TL;DR
+
+```shell
+$ ./gradlew clean build jibDockerBuild
+$ kind create cluster
+$ kind load docker-image playground-micronaut:1.0.0
+$ cd deploy/local
+$ ./db-create.sh
+$ ./app-create.sh
+$ kubectl port-forward service/playground-app-service 8080:8080
+$ curl localhost:8080/clients
+```
+
+#### Documented Build Process
 
 First Create the cluster:
 ```shell
