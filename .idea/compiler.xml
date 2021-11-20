@@ -10,7 +10,7 @@
         <option name="micronaut.processing.annotations" value="io.belldj.pg.mn" />
         <option name="micronaut.processing.group" value="io.belldj.pg.mn" />
         <option name="micronaut.processing.incremental" value="true" />
-        <option name="micronaut.processing.module" value="playground-micronaut" />
+        <option name="micronaut.processing.module" value="client-backend" />
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mapstruct/mapstruct-processor/1.5.0.Beta1/4234cd15868add932bbab89df540696d70ba1102/mapstruct-processor-1.5.0.Beta1.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.immutables/value/2.8.2/45f2a38858f3d05f919a7bdb9221bd738fe1669b/value-2.8.2.jar" />
@@ -33,7 +33,7 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/jakarta.inject/jakarta.inject-api/2.0.0/46fc8560b6fd17b78396d88f39c1a730457671f0/jakarta.inject-api-2.0.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/jakarta.transaction/jakarta.transaction-api/1.3.3/c4179d48720a1e87202115fbed6089bdc4195405/jakarta.transaction-api-1.3.3.jar" />
         </processorPath>
-        <module name="playground-micronaut.test" />
+        <module name="playground-micronaut.client-backend.test" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
@@ -41,7 +41,7 @@
         <option name="micronaut.processing.annotations" value="io.belldj.pg.mn" />
         <option name="micronaut.processing.group" value="io.belldj.pg.mn" />
         <option name="micronaut.processing.incremental" value="true" />
-        <option name="micronaut.processing.module" value="playground-micronaut" />
+        <option name="micronaut.processing.module" value="client-backend" />
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.micronaut.openapi/micronaut-openapi/3.1.0/5ce97e4e050a6cb7e21c611185a1da12c1a04c8/micronaut-openapi-3.1.0.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.micronaut.data/micronaut-data-processor/3.1.0/366b800350c1278c1870847e685d20343b277e24/micronaut-data-processor-3.1.0.jar" />
@@ -100,7 +100,7 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/jakarta.activation/jakarta.activation-api/1.2.1/562a587face36ec7eff2db7f2fc95425c6602bc1/jakarta.activation-api-1.2.1.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/jakarta.transaction/jakarta.transaction-api/1.3.3/c4179d48720a1e87202115fbed6089bdc4195405/jakarta.transaction-api-1.3.3.jar" />
         </processorPath>
-        <module name="playground-micronaut.main" />
+        <module name="playground-micronaut.client-backend.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />
