@@ -1,0 +1,14 @@
+datasources:
+  default:
+    url: jdbc:tc:postgresql:10.5-alpine://localhost/playground?TC_DAEMON=true
+    driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+    username: test
+    password: test
+    dialect: POSTGRES
+testcontainers:
+  reuse:
+    enable: false
+flyway:
+  datasources:
+    default:
+      locations: classpath:db/migration

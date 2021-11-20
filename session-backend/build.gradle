@@ -10,7 +10,7 @@ micronaut {
     testRuntime("junit5")
     processing {
         incremental(true)
-        annotations("io.belldj.pg.clients")
+        annotations("io.belldj.pg.sessions")
     }
 }
 
@@ -68,7 +68,7 @@ jib {
 }
 
 application {
-    mainClass.set("io.belldj.pg.clients.Application")
+    mainClass.set("io.belldj.pg.sessions.Application")
 }
 
 java {

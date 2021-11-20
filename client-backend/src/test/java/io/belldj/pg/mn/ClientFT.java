@@ -1,14 +1,14 @@
 package io.belldj.pg.mn;
 
-import static io.belldj.pg.mn.client.api.ClientStatus.ACTIVE;
+import static io.belldj.pg.clients.client.api.ClientStatus.ACTIVE;
 import static java.time.temporal.ChronoUnit.HOURS;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import io.belldj.pg.mn.client.api.PhoneType;
-import io.belldj.pg.mn.client.web.AddClientT;
-import io.belldj.pg.mn.client.web.ClientT;
-import io.belldj.pg.mn.client.web.PhoneT;
+import io.belldj.pg.clients.client.api.PhoneType;
+import io.belldj.pg.clients.client.web.AddClientT;
+import io.belldj.pg.clients.client.web.ClientT;
+import io.belldj.pg.clients.client.web.PhoneT;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
