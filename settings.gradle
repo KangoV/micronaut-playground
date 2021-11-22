@@ -1,1 +1,5 @@
 rootProject.name="playground-micronaut"
+
+include 'client-backend'
+include 'session-backend'
+
