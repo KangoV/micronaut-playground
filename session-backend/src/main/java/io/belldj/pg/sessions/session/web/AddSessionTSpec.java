@@ -20,6 +20,6 @@ import java.time.LocalDateTime;
 public interface AddSessionTSpec {
   String        getClientId();
   LocalDateTime getStart();
-  LocalDateTime getEnd();
+  LocalDateTime getFinish();
   SessionStatus getStatus();
 }

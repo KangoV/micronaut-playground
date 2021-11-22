@@ -26,7 +26,8 @@ public record SessionStore(SessionDao sessionDao, InfraClientMapper sessionMappe
 
   List<Session> findAll() {
     log.debug("Finding all clients");
-    return StreamSupport.stream(sessionDao.findAll().spliterator(), false).map(sessionMapper::map).toList();
+    var list = StreamSupport.stream(sessionDao.findAll().spliterator(), false).map(sessionMapper::map).toList();
+    return list;
   }
 
   Optional<Session> findById(UUID id) {

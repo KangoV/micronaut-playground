@@ -19,7 +19,7 @@ public record SessionE(
   @Nullable @DateUpdated LocalDateTime updated,
   // instance fields
   UUID clientId,
-  LocalDate start,
-  LocalDate end,
+  LocalDateTime start,
+  LocalDateTime finish,
   SessionStatus status
 ) {}

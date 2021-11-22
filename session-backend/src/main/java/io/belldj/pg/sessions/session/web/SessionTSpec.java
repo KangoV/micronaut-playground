@@ -20,7 +20,7 @@ import java.util.function.UnaryOperator;
 @Value.Immutable
 @ImmutableStyle
 @JsonDeserialize(builder = SessionT.Builder.class)
-@Schema(name="Client", description="Client description")
+@Schema(name="Session", description="Session description")
 public interface SessionTSpec {
   default SessionT change(UnaryOperator<SessionT.Builder> builderFunc) {
     return builderFunc.apply(SessionT.builder().from(this)).build();
@@ -31,6 +31,6 @@ public interface SessionTSpec {
   @Nullable LocalDateTime getUpdated();
             String        getClientId();
             LocalDateTime getStart();
-            LocalDateTime getEnd();
+            LocalDateTime getFinish();
             SessionStatus getStatus();
 }

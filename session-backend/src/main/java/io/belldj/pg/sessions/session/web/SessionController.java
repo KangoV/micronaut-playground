@@ -1,7 +1,7 @@
 package io.belldj.pg.sessions.session.web;
 
 import io.belldj.pg.sessions.domain.BaseMapper;
-import io.belldj.pg.mn.session.Session;
+import io.belldj.pg.sessions.session.Session;
 import io.belldj.pg.sessions.session.SessionService;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;

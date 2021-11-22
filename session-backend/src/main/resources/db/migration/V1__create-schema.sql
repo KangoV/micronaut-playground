@@ -8,11 +8,12 @@ CREATE TABLE sess (
   updated            TIMESTAMPTZ,
   client_id          UUID          NOT NULL,
   start              TIMESTAMPTZ   NOT NULL,
-  finish             TIMESTAMPTZ   NOT NULL
+  finish             TIMESTAMPTZ   NOT NULL,
+  status             VARCHAR(32)   NOT NULL
 );
-INSERT INTO sess (id,version,created,client_id,start,finish)
-    VALUES('d967da01-9d66-4623-9762-68506151007c', 0, CURRENT_TIMESTAMP, 'd967da01-9d66-4623-9762-68506151006c', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO sess (id,version,created,client_id,start,finish)
-    VALUES('d967da01-9d66-4623-9762-68506151007d', 0, CURRENT_TIMESTAMP, 'd967da01-9d66-4623-9762-68506151006c', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO sess (id, version, created, client_id, start, finish, status)
+    VALUES('d967da01-9d66-4623-9762-68506151007c', 0, CURRENT_TIMESTAMP, 'd967da01-9d66-4623-9762-68506151006c', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'WAITING');
+INSERT INTO sess (id, version, created, client_id, start, finish, status)
+    VALUES('d967da01-9d66-4623-9762-68506151007d', 0, CURRENT_TIMESTAMP, 'd967da01-9d66-4623-9762-68506151006c', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'WAITING');
 
 commit;

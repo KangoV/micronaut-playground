@@ -19,6 +19,6 @@ interface SessionSpec extends DomainEntity {
   @Value.Default default Optional<LocalDateTime> getUpdated() { return Optional.empty(); }
   UUID getClientId();
   LocalDateTime getStart();
-  LocalDateTime getEnd();
+  LocalDateTime getFinish();
   SessionStatus getStatus();
 }
