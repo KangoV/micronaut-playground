@@ -60,7 +60,7 @@ dependencies {
 
 jib {
     to {
-        image = "playground-micronaut:1.0.0"
+        image = "pg-sessions-backend:1.0.0"
     }
     from {
         image = "registry://openjdk:17-jdk-alpine"
