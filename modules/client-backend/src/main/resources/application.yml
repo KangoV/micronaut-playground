@@ -1,6 +1,6 @@
 micronaut:
   application:
-    name: payground-micronaut
+    name: playground-micronaut
 datasources:
   default:
     url: ${DB_URL:`jdbc:postgresql://localhost/playground`}
@@ -16,3 +16,7 @@ flyway:
 jackson:
   serialization:
     writeDatesAsTimestamps: false
+kafka:
+  bootstrap:
+    servers: localhost:9092
+

@@ -2,7 +2,7 @@ package io.belldj.pg.clients.client.web;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import io.belldj.pg.clients.util.ImmutableStyle;
+import io.belldj.pg.common.ImmutableStyle;
 import io.belldj.pg.clients.client.api.ClientStatus;
 import io.belldj.pg.clients.client.api.Employment;
 import io.belldj.pg.clients.client.api.MaritalStatus;

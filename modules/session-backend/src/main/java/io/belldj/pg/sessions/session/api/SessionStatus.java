@@ -1,6 +1,6 @@
 package io.belldj.pg.sessions.session.api;
 
-import io.belldj.pg.sessions.api.EnumNames;
+import io.belldj.pg.common.EnumNames;
 
 public enum SessionStatus {
 

@@ -16,6 +16,8 @@ micronaut {
 
 dependencies {
 
+    implementation project(':modules:common')
+
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
     annotationProcessor("org.immutables:value:2.8.2")
@@ -24,6 +26,7 @@ dependencies {
 
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut.kafka:micronaut-kafka")
     implementation("io.micronaut.data:micronaut-data-jdbc:3.1.1")
     implementation("io.micronaut.flyway:micronaut-flyway")
 //    implementation("io.micronaut.gcp:micronaut-gcp-pubsub")
@@ -47,9 +50,11 @@ dependencies {
 
     testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.0"))
 
+    testImplementation("org.testcontainers:kafka")
     testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.assertj:assertj-core")
     testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.awaitility:awaitility:4.1.1")
+    testImplementation("org.assertj:assertj-core")
 
     testRuntimeOnly("org.testcontainers:postgresql")
     testRuntimeOnly("org.postgresql:postgresql:42.2.23")
@@ -60,7 +65,7 @@ dependencies {
 
 jib {
     to {
-        image = "pg-client-backend:1.0.0"
+        image = "pg-clients-backend:1.0.0"
     }
     from {
         image = "registry://openjdk:17-jdk-alpine"
@@ -71,10 +76,6 @@ application {
     mainClass.set("io.belldj.pg.clients.Application")
 }
 
-java {
-    sourceCompatibility = JavaVersion.toVersion("17")
-    targetCompatibility = JavaVersion.toVersion("17")
-}
 
 compileJava {
     options.compilerArgs += [

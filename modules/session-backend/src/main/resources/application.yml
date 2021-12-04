@@ -1,6 +1,6 @@
 micronaut:
   application:
-    name: payground-clients-backend
+    name: playground-clients-backend
 datasources:
   default:
     url: ${DB_URL:`jdbc:postgresql://localhost/playground`}

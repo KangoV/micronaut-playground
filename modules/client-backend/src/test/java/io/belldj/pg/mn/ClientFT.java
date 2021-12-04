@@ -9,6 +9,7 @@ import io.belldj.pg.clients.client.api.PhoneType;
 import io.belldj.pg.clients.client.web.AddClientT;
 import io.belldj.pg.clients.client.web.ClientT;
 import io.belldj.pg.clients.client.web.PhoneT;
+import io.micronaut.context.annotation.Property;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
@@ -22,6 +23,7 @@ import java.util.List;
 @Testcontainers
 @MicronautTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Property(name="kafka.enabled", value = "false")
 class ClientFT {
 
   @Client("/clients")

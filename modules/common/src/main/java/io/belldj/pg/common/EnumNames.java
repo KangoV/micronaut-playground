@@ -1,4 +1,4 @@
-package io.belldj.pg.clients.api;
+package io.belldj.pg.common;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,8 +8,12 @@ import java.util.regex.Pattern;
 
 public class EnumNames<E extends Enum<E>> {
 
-  private static final String PUNCTUATION = "[^a-zA-Z0-9]";
-  private static final Pattern PUNCTUATION_PATTERN = Pattern.compile(PUNCTUATION);
+  @SafeVarargs
+  public static <E extends Enum<E>> EnumNames<E> from(E[] values, Function<String, E> valueOfSupplier, Function<E, String>... keySuppliers) {
+    return new EnumNames<>(byName(values, keySuppliers), valueOfSupplier);
+  }
+
+  private static final Pattern PUNCTUATION_PATTERN = Pattern.compile("[^a-zA-Z0-9]");
 
   private final Map<String, E> names;
   private final Function<String, E> valueOfSupplier;
@@ -22,11 +26,6 @@ public class EnumNames<E extends Enum<E>> {
   public E from(String name) {
     E e = this.names.get(name.toLowerCase());
     return e != null ? e : this.valueOfSupplier.apply(name);
-  }
-
-  @SafeVarargs
-  public static <E extends Enum<E>> EnumNames<E> from(E[] values, Function<String, E> valueOfSupplier, Function<E, String>... keySuppliers) {
-    return new EnumNames<>(byName(values, keySuppliers), valueOfSupplier);
   }
 
   @SafeVarargs

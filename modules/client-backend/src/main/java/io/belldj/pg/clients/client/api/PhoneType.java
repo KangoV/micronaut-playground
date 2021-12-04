@@ -1,6 +1,6 @@
 package io.belldj.pg.clients.client.api;
 
-import io.belldj.pg.clients.api.EnumNames;
+import io.belldj.pg.common.EnumNames;
 
 public enum PhoneType {
 

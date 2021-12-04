@@ -1,0 +1,9 @@
+micronaut:
+  application:
+    name: playground-events-backend
+kafka:
+  bootstrap:
+    servers: localhost:9092
+jackson:
+  serialization:
+    writeDatesAsTimestamps: false

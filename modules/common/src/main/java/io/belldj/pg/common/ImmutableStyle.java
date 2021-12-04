@@ -1,6 +1,6 @@
-package io.belldj.pg.sessions.util;
+package io.belldj.pg.common;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.immutables.value.Value;
 import org.immutables.value.Value.Style.ImplementationVisibility;
 
@@ -30,8 +30,7 @@ import java.lang.annotation.Target;
     typeImmutable = "*",
     typeAbstract = "*Spec",
     depluralize = true,
-    visibility = ImplementationVisibility.PUBLIC,
-    additionalJsonAnnotations = { Schema.class }
+    visibility = ImplementationVisibility.PUBLIC
 )
 public @interface ImmutableStyle { // empty
 }

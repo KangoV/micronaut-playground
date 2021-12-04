@@ -2,4 +2,6 @@ rootProject.name="playground-micronaut"
 
 include 'modules:client-backend'
 include 'modules:session-backend'
+include 'modules:events-backend'
+include 'modules:common'
 
