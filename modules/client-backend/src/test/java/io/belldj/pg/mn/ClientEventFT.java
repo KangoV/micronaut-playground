@@ -1,43 +1,32 @@
 package io.belldj.pg.mn;
 
-import io.belldj.pg.clients.client.web.AddClientT;
-import io.belldj.pg.clients.client.web.ClientT;
-import io.micronaut.configuration.kafka.annotation.KafkaKey;
-import io.micronaut.configuration.kafka.annotation.KafkaListener;
-import io.micronaut.configuration.kafka.annotation.Topic;
-import io.micronaut.core.annotation.NonNull;
-import io.micronaut.http.annotation.*;
-import io.micronaut.http.client.HttpClient;
-import io.micronaut.http.client.annotation.Client;
-import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import io.micronaut.test.support.TestPropertyProvider;
-import org.flywaydb.core.Flyway;
-import org.junit.jupiter.api.*;
-import org.testcontainers.containers.KafkaContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
-
-import jakarta.inject.Inject;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentLinkedDeque;
-
 import static io.belldj.pg.clients.client.api.ClientStatus.ACTIVE;
 import static io.micronaut.configuration.kafka.annotation.OffsetReset.EARLIEST;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.awaitility.Awaitility.await;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
+import static org.junit.jupiter.api.TestInstance.Lifecycle.*;
+
+import io.belldj.pg.clients.client.web.*;
+import io.micronaut.configuration.kafka.annotation.*;
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.http.annotation.*;
+import io.micronaut.http.client.annotation.Client;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.micronaut.test.support.TestPropertyProvider;
+import jakarta.inject.Inject;
+import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.*;
+import org.testcontainers.containers.KafkaContainer;
+import org.testcontainers.junit.jupiter.*;
+import org.testcontainers.utility.DockerImageName;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 @Testcontainers 
 @MicronautTest
-@TestInstance(PER_CLASS) 
+@TestInstance(PER_CLASS)
 class ClientEventFT implements TestPropertyProvider {
 
     @Client("/clients")
@@ -57,17 +46,13 @@ class ClientEventFT implements TestPropertyProvider {
         }
     }
 
+    @Container
+    private static final KafkaContainer kafka = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
+
     private static final Collection<String> received = new ConcurrentLinkedDeque<>();
 
-    @Container
-    private static KafkaContainer kafka = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
-
     @Inject Flyway flyway;
-    @Inject EventsListener eventsListener;
     @Inject ClientEventFT.Clients clients;
-
-    @Inject @Client("/")
-    HttpClient client;
 
     @AfterEach
     public void afterEach() {
@@ -83,10 +68,13 @@ class ClientEventFT implements TestPropertyProvider {
     @NonNull
     @Override
     public Map<String, String> getProperties() {
-        return Collections.singletonMap("kafka.bootstrap.servers", kafka.getBootstrapServers());
+        return Map.of(
+          "kafka.bootstrap.servers", kafka.getBootstrapServers()
+        );
     }
 
     @Test
+    @Disabled
     @DisplayName("POST new client")
     void testAdd() { // POST
 
@@ -100,8 +88,7 @@ class ClientEventFT implements TestPropertyProvider {
           .build();
 
         this.clients.post(command);
-        kafka.getBootstrapServers();
-        await().atMost(5, SECONDS).until(() -> !received.isEmpty());
+        await().atMost(20, SECONDS).until(() -> !received.isEmpty());
 
         System.out.println(kafka.getLogs());
 

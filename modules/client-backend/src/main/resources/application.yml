@@ -18,5 +18,5 @@ jackson:
     writeDatesAsTimestamps: false
 kafka:
   bootstrap:
-    servers: localhost:9092
+    servers: ${KAFKA_HOST:`localhost:9092`}
 

@@ -1,38 +1,52 @@
 package io.belldj.pg.mn;
 
 import static io.belldj.pg.clients.client.api.ClientStatus.ACTIVE;
+import static io.micronaut.configuration.kafka.annotation.OffsetReset.EARLIEST;
 import static java.time.temporal.ChronoUnit.HOURS;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import io.belldj.pg.clients.client.api.PhoneType;
-import io.belldj.pg.clients.client.web.AddClientT;
-import io.belldj.pg.clients.client.web.ClientT;
-import io.belldj.pg.clients.client.web.PhoneT;
-import io.micronaut.context.annotation.Property;
+import io.belldj.pg.clients.client.web.*;
+import io.micronaut.configuration.kafka.annotation.*;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.micronaut.test.support.TestPropertyProvider;
 import jakarta.inject.Inject;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.*;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.containers.KafkaContainer;
+import org.testcontainers.junit.jupiter.*;
+import org.testcontainers.utility.DockerImageName;
 
-import java.util.List;
+import java.util.*;
 
 @Testcontainers
 @MicronautTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Property(name="kafka.enabled", value = "false")
-class ClientFT {
+class ClientFT implements TestPropertyProvider {
 
   @Client("/clients")
   interface Clients {
     @Get          List<ClientT> getAll();
-    @Get("/{id}") ClientT       get(@PathVariable String id);
     @Post         ClientT       post(@Body AddClientT addClient);
+    @Get("/{id}") ClientT       get(@PathVariable String id);
     @Put("/{id}") ClientT       put(@Body ClientT client, String id);
   }
+
+  @KafkaListener(offsetReset = EARLIEST)
+  static class EventsListener {
+    @Topic("events")
+    void receive(@KafkaKey String key,  String event) {
+      System.out.println("### Received from kafka: "+event);
+      //received.add(event);
+    }
+  }
+
+  @Container
+  private static final KafkaContainer kafka = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:latest"));
 
   private static final String DAVID = "David";
   private static final String SARAH = "Sarah";
@@ -53,6 +67,14 @@ class ClientFT {
   @BeforeEach
   public void beforeEach() {
     flyway.migrate();
+  }
+
+  @NonNull
+  @Override
+  public Map<String, String> getProperties() {
+    return Map.of(
+      "kafka.bootstrap.servers", kafka.getBootstrapServers()
+    );
   }
 
   @Test
