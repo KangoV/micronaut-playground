@@ -3,7 +3,6 @@ micronaut:
     name: playground-events-backend
 kafka:
   bootstrap:
-    servers: localhost:9092
+    servers: ${KAFKA_HOST:`localhost:9092`}
 jackson:
   serialization:
-    writeDatesAsTimestamps: false
