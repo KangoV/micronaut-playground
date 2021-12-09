@@ -1,7 +1,7 @@
 package io.belldj.pg.clients.client;
 
 import io.belldj.pg.clients.domain.DomainEntity;
-import io.belldj.pg.clients.util.ImmutableStyle;
+import io.belldj.pg.common.ImmutableStyle;
 import io.belldj.pg.clients.client.api.ClientStatus;
 import io.belldj.pg.clients.client.api.Employment;
 import io.belldj.pg.clients.client.api.MaritalStatus;

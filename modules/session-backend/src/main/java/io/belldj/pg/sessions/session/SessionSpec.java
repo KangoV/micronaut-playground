@@ -1,8 +1,8 @@
 package io.belldj.pg.sessions.session;
 
+import io.belldj.pg.common.ImmutableStyle;
 import io.belldj.pg.sessions.domain.DomainEntity;
 import io.belldj.pg.sessions.session.api.SessionStatus;
-import io.belldj.pg.sessions.util.ImmutableStyle;
 import org.immutables.value.Value;
 
 import java.time.LocalDateTime;

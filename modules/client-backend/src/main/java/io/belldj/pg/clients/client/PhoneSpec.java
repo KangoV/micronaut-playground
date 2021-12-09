@@ -2,7 +2,7 @@ package io.belldj.pg.clients.client;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import io.belldj.pg.clients.util.ImmutableStyle;
+import io.belldj.pg.common.ImmutableStyle;
 import org.immutables.value.Value;
 
 /*

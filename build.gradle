@@ -1,8 +1,20 @@
+plugins {
+    id 'java-library'
+}
+
 version = "0.1.0"
 group = "io.belldj.pg.mn"
 
 subprojects {
+    apply plugin: 'java-library'
     repositories {
         mavenCentral()
+    }
+    dependencies {
+        //implementation project(':modules:common')
+    }
+    java {
+        sourceCompatibility = JavaVersion.toVersion("17")
+        targetCompatibility = JavaVersion.toVersion("17")
     }
 }

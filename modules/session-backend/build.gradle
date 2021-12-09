@@ -16,6 +16,8 @@ micronaut {
 
 dependencies {
 
+    implementation project(':modules:common')
+
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
     annotationProcessor("org.immutables:value:2.8.2")
@@ -69,11 +71,6 @@ jib {
 
 application {
     mainClass.set("io.belldj.pg.sessions.Application")
-}
-
-java {
-    sourceCompatibility = JavaVersion.toVersion("17")
-    targetCompatibility = JavaVersion.toVersion("17")
 }
 
 compileJava {

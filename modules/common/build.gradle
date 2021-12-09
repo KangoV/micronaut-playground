@@ -1,0 +1,50 @@
+plugins {
+    id 'java-library'
+    id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("com.adarshr.test-logger") version "2.0.0"
+}
+
+dependencies {
+    annotationProcessor("org.immutables:value:2.8.2")
+    implementation("org.immutables:value:2.8.2")
+    testAnnotationProcessor("org.immutables:value:2.8.2")
+    testImplementation("org.assertj:assertj-core:3.21.0")
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+compileJava {
+    options.compilerArgs += [
+//        '-Amapstruct.defaultComponentModel=jsr330'
+//        '-Amapstruct.verbose=false'
+    ]
+}
+
+test {
+    useJUnitPlatform()
+    testlogger {
+        theme 'mocha'
+        showExceptions true
+        showStackTraces true
+        showFullStackTraces false
+        showCauses true
+        slowThreshold 2000
+        showSummary true
+        showSimpleNames false
+        showPassed true
+        showSkipped true
+        showFailed true
+        showStandardStreams false
+        showPassedStandardStreams true
+        showSkippedStandardStreams true
+        showFailedStandardStreams true
+    }
+}
+
+
+

@@ -1,0 +1,97 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("io.micronaut.application") version "2.0.4"
+    id("com.adarshr.test-logger") version "2.0.0"
+    id("com.google.cloud.tools.jib") version "2.8.0"
+}
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("io.belldj.pg.events")
+    }
+}
+
+dependencies {
+
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor("org.immutables:value:2.8.2")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.0.Beta1")
+
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut.kafka:micronaut-kafka")
+    implementation("javax.annotation:javax.annotation-api")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("org.immutables:value:2.8.2")
+    implementation("org.mapstruct:mapstruct:1.5.0.Beta1")
+    implementation('javax.inject:javax.inject:1') // needed for mapstruct component model of jsr330
+
+    runtimeOnly("ch.qos.logback:logback-classic")
+
+    testAnnotationProcessor("org.mapstruct:mapstruct-processor:1.5.0.Beta1") // if in test code
+    testAnnotationProcessor("org.immutables:value:2.8.2")
+
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.16.0"))
+
+    testImplementation("org.testcontainers:kafka")
+    testImplementation("org.awaitility:awaitility:4.1.1")
+    testImplementation("org.assertj:assertj-core")
+    testImplementation("org.testcontainers:junit-jupiter")
+
+    testRuntimeOnly("org.testcontainers:postgresql")
+
+    compileOnly("org.graalvm.nativeimage:svm")
+
+}
+
+jib {
+    to {
+        image = "pg-events-backend:1.0.0"
+    }
+    from {
+        image = "registry://openjdk:17-jdk-alpine"
+    }
+}
+
+application {
+    mainClass.set("io.belldj.pg.events.Application")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+compileJava {
+    options.compilerArgs += [
+        '-Amapstruct.defaultComponentModel=jsr330'
+//        '-Amapstruct.verbose=false'
+    ]
+}
+
+test {
+    useJUnitPlatform()
+    testlogger {
+        theme 'mocha'
+        showExceptions true
+        showStackTraces true
+        showFullStackTraces false
+        showCauses true
+        slowThreshold 2000
+        showSummary true
+        showSimpleNames false
+        showPassed true
+        showSkipped true
+        showFailed true
+        showStandardStreams false
+        showPassedStandardStreams true
+        showSkippedStandardStreams true
+        showFailedStandardStreams true
+    }
+}
+
+
+

@@ -2,8 +2,8 @@ package io.belldj.pg.sessions.session.web;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import io.belldj.pg.common.ImmutableStyle;
 import io.belldj.pg.sessions.session.api.SessionStatus;
-import io.belldj.pg.sessions.util.ImmutableStyle;
 import io.micronaut.core.annotation.Nullable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.immutables.value.Value;

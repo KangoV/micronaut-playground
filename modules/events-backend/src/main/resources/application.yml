@@ -1,0 +1,8 @@
+micronaut:
+  application:
+    name: playground-events-backend
+kafka:
+  bootstrap:
+    servers: ${KAFKA_HOST:`localhost:9092`}
+jackson:
+  serialization:

@@ -76,7 +76,7 @@ public record ClientController(ClientService service, WebClientMapper clientMapp
   @ExecuteOn(TaskExecutors.IO)
   @Post(produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
   ClientT add(@Body AddClientT newClient) {
-    return clientMapper.map(service.saveClient(clientMapper.map(newClient)));
+    return clientMapper.map(service.addClient(clientMapper.map(newClient)));
   }
 
   /**
