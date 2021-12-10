@@ -21,7 +21,6 @@ public class DomainListener {
   @EventListener
   public void onClientSaved(ClientEvent event) {
     log.debug("Received event: {}", event);
-    System.out.println("Received event: " + event);
     eventClient.notify(event.getClient().getId().toString(), event.toString());
   }
 

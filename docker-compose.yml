@@ -28,6 +28,16 @@ services:
     depends_on:
       - "db-sessions"
       - "kafka1"
+  events:
+    image: pg-events-backend:1.0.0
+    container_name: events-backend
+    restart: always
+    environment:
+      - KAFKA_HOST=kafka1:29092
+    ports:
+      - "8083:8080"
+    depends_on:
+      - "kafka1"
   db-clients:
     image: postgres:10.5-alpine
     container_name: clients-db
