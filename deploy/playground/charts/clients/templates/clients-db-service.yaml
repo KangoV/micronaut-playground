@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: clients-db-service
+  labels:
+    app: clients-db
+spec:
+  type: NodePort
+  ports:
+  - port: 5432
+  selector:
+    app: clients-db

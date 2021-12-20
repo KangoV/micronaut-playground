@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sessions-db
+spec:
+  serviceName: sessions-db-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sessions-db
+  template:
+    metadata:
+      labels:
+        app: sessions-db
+    spec:
+      containers:
+      - name: sessions-db
+        image: postgres:10.5-alpine
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - configMapRef:
+            name: sessions-db-configmap
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: sessions-db
+        readinessProbe:
+          exec:
+            command: ["pg_isready", "-U", "postgres", "-d", "clients", "-q"]
+          initialDelaySeconds: 15
+          timeoutSeconds: 2
+        livenessProbe:
+          exec:
+            command: ["psql", "-U", "postgres", "-d", "clients", "-c", "SELECT 1"]
+          initialDelaySeconds: 45
+          timeoutSeconds: 2
+      volumes:
+      - name: sessions-db
+        persistentVolumeClaim:
+          claimName: sessions-db-pv-claim

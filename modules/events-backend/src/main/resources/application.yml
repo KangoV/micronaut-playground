@@ -1,6 +1,9 @@
 micronaut:
   application:
     name: playground-events-backend
+endpoints:
+  health:
+    details-visible: ANONYMOUS
 kafka:
   bootstrap:
     servers: ${KAFKA_HOST:`localhost:9092`}

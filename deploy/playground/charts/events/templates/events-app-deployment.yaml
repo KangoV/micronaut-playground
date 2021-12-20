@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: events-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: events-app
+  template:
+    metadata:
+      labels:
+        app: events-app
+    spec:
+      containers:
+        - name: events-pod
+          image: pg-events-backend:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8082
+          envFrom:
+          - configMapRef:
+              name: events-app-configmap

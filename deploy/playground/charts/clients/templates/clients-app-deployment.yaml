@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clients-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clients-app
+  template:
+    metadata:
+      labels:
+        app: clients-app
+    spec:
+      containers:
+        - name: clients-pod
+          image: pg-clients-backend:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8080
+          envFrom:
+          - configMapRef:
+              name: clients-app-configmap
