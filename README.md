@@ -13,6 +13,7 @@ The main libraries are:
 * Mapstruct
 * Kubernetes
 * Kind
+* Helm
 
 ## Main Goals
 
@@ -22,8 +23,8 @@ The main libraries are:
 
 ## The future
 
-* Spilt into multiple modules (services)
-* Introduce messaging (Kafka)
+* Spilt into multiple modules (services) -- Done
+* Introduce messaging (Kafka) -- Done
 * Full integration tests will always run locally
 
 ## Build/Run
@@ -37,11 +38,9 @@ The only Kubenetes implementationm I have used so far is Kind. To install, follo
 ```shell
 $ ./gradlew clean build jibDockerBuild
 $ kind create cluster
-$ kind load docker-image playground-micronaut:1.0.0
-$ cd deploy/local
-$ ./db-create.sh
-$ ./app-create.sh
-$ kubectl port-forward service/playground-app-service 8080:8080
+$ deploy/loadimages.sh
+$ helm install playground deploy/playground/
+$ kubectl port-forward service/clients-app-service 8081:8081
 $ curl localhost:8080/clients
 ```
 
@@ -74,67 +73,82 @@ Now build:
 $ ./gradlew clean build jibDockerBuild
 .
 .
-BUILD SUCCESSFUL in 21s
-17 actionable tasks: 17 executed
+BUILD SUCCESSFUL in 2m 15s
+61 actionable tasks: 61 executed
 ```
 
-We now have a docker image:
+We now have the following docker images:
 ```shell
 $ docker images
-REPOSITORY             TAG           IMAGE ID       CREATED         SIZE
-kindest/node           <none>        32b8b755dee8   5 months ago    1.12GB
-testcontainers/ryuk    0.3.1         ee7515743e6f   10 months ago   12MB
-postgres               10.5-alpine   294f651dec48   3 years ago     71.6MB
-playground-micronaut   1.0.0         c260e0a9a967   51 years ago    349MB
+REPOSITORY              TAG           IMAGE ID       CREATED         SIZE
+confluentinc/cp-kafka   latest        7d9766481102   5 days ago      784MB
+testcontainers/ryuk     0.3.3         64f4b02dc986   2 months ago    12MB
+postgres                10.5-alpine   294f651dec48   3 years ago     71.6MB
+kindest/node            <none>        32b8b755dee8   7 months ago    1.12GB
+pg-sessions-backend     1.0.0         d97e14d62747   52 years ago    383MB
+pg-client-backend       1.0.0         272fd90fbd0e   52 years ago    349MB
+pg-events-backend       1.0.0         ad674d2665f2   52 years ago    390MB
+pg-clients-backend      1.0.0         d2b5942511b0   52 years ago    397MB
 ```
 
-During the build testcontainers and postgres images would have been pulled. You can also see the kind image. Although we have build the image for the application, it is only visible to docker and not Kind. We need to load the image into Kind's internal registry so that the it can be found. Use the following command:
+During the build testcontainers, postgres and kafka images would have been pulled. You can also see the kind image. Although we have built the images for the application, they are only visible to docker and not Kind. We need to load the images into Kind's internal registry so that they can be found. Use the following command:
 
 ```shell
-$ kind load docker-image playground-micronaut:1.0.0
-Image: "playground-micronaut:1.0.0" with ID "sha256:c260e0a9a967ee7ef8c8892e1d36d0a954f2f0d75a57a647b4925fc47c27ac81" not yet present on node "kind-control-plane", loading...
+$ deploy/loadimages.sh
+Image: "pg-clients-backend:1.0.0" with ID "sha256:d2b5942511b0cad05afc6cb2af17a60865d290ccc56602e7e8ef8f32b944bcbc" not yet present on node "kind-control-plane", loading...
+Image: "pg-sessions-backend:1.0.0" with ID "sha256:d97e14d6274707aeba340a57ff59b3f69d8421e577aedd0bcf78fec050a8d737" not yet present on node "kind-control-plane", loading...
+Image: "pg-events-backend:1.0.0" with ID "sha256:ad674d2665f200df16ba0a83cde0c31a62bae5616818a0a70f334fca38a4fd32" not yet present on node "kind-control-plane", loading...
 ```
 
+Now that Kind has access to the mages that were just built, Helm can be used to deploy the services:
+
 ```shell
-$ cd deploy/local
-$ ./db-create.sh
-configmap/playground-db-config created
-persistentvolume/playground-db-pv-volume created
-persistentvolumeclaim/playground-db-pv-claim created
-deployment.apps/playground-db created
-service/playground-db-service created
-$ ./app-create.sh
-configmap/playground-app-config created
-deployment.apps/playground-app created
-service/playground-app-service created
+$ helm install playground deploy/playground/
+NAME: playground
+LAST DEPLOYED: Mon Dec 20 17:55:47 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
 ```
 
 Confirm the pods/services have been created:
 
 ```shell
 $ kubectl get pods,svc
-NAME                             READY   STATUS         RESTARTS   AGE
-playground-app-9d878554b-22fxt   1/1     Running        0          69s
-playground-db-564c569f8f-8jvng   1/1     Running        0          2m32s
-NAME                             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-service/kubernetes               ClusterIP   10.96.0.1       <none>        443/TCP          24m
-service/playground-app-service   NodePort    10.96.146.37    <none>        8080:31083/TCP   7m54s
-service/playground-db-service    NodePort    10.96.196.251   <none>        5432:30463/TCP   9m16s
+NAME                                READY   STATUS             RESTARTS   AGE
+pod/clients-app-7794c67c5-k9dmf     1/1     Running            4          109s
+pod/clients-db-0                    1/1     Running            0          109s
+pod/events-app-789cc8945f-q9fgb     1/1     Running            0          109s
+pod/kafka-app-64d7f596c-9jr7f       1/1     Running            0          109s
+pod/sessions-app-86f4dd8496-z49hv   0/1     CrashLoopBackOff   3          109s
+pod/sessions-db-0                   1/1     Running            0          109s
+pod/zookeeper-85f6ffb789-qvmx6      1/1     Running            0          109s
+NAME                           TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+service/clients-app-service    NodePort    10.96.57.205   <none>        8081:31450/TCP               109s
+service/clients-db-service     NodePort    10.96.91.33    <none>        5432:30704/TCP               109s
+service/events-app-service     NodePort    10.96.66.118   <none>        8081:30617/TCP               109s
+service/kafka-service          ClusterIP   10.96.22.71    <none>        29092/TCP                    109s
+service/kubernetes             ClusterIP   10.96.0.1      <none>        443/TCP                      5m29s
+service/sessions-app-service   NodePort    10.96.234.57   <none>        8081:30657/TCP               109s
 ```
 
+Note that `session-app-<hash>` is in `CrashLoopBackOff` status as there is an issue at this point. Also note that all services are using port 8081. This is a bug which is yet to be resolved.
+
 In order to access the application we can use port forwarding. In a different shell, run the followuing:
+
 ```shell
-$ kubectl port-forward service/playground-app-service 8080:8080
-Forwarding from 127.0.0.1:8080 -> 8080
-Forwarding from [::1]:8080 -> 8080
-Handling connection for 8080
+$ kubectl port-forward service/clients-app-service 8081:8081
+Forwarding from 127.0.0.1:8081 -> 8081
+Forwarding from [::1]:8081 -> 8081
+Handling connection for 8081
 ```
 
 In your original shell run:
 ```shell
-$ curl localhost:8080/clients
+$ curl localhost:8081/clients
 ```
-should reault in a list of clients that were initially loaded through Flyway:
+should result in a list of clients that were initially loaded through Flyway:
 ```json
 [
   {
