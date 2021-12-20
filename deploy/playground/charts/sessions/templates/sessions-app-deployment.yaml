@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sessions-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sessions-app
+  template:
+    metadata:
+      labels:
+        app: sessions-app
+    spec:
+      containers:
+        - name: sessions-pod
+          image: pg-sessions-backend:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8081
+          envFrom:
+          - configMapRef:
+              name: sessions-app-configmap

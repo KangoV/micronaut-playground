@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: clients-db-configmap
+  labels:
+    app: clients-db
+data:
+  POSTGRES_DB: clients
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres

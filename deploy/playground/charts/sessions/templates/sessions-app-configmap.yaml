@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sessions-app-configmap
+  labels:
+    app: sessions-app
+data:
+  DB_URL: jdbc:postgresql://sessions-db-service/sessions
+  DB_USER: postgres
+  DB_PASSWORD: postgres
+  KAFKA_HOST: kafka:29092

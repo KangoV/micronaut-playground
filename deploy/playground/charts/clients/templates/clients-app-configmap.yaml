@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: clients-app-configmap
+  labels:
+    app: clients-app
+data:
+  DB_URL: jdbc:postgresql://clients-db-service/clients
+  DB_USER: postgres
+  DB_PASSWORD: postgres
+  KAFKA_HOST: kafka-service:29092

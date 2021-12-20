@@ -1,0 +1,29 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: sessions-db-pv
+  labels:
+    type: local
+    app: sessions-db
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+  - ReadWriteMany
+  hostPath:
+    path: "/mnt/data/sessions"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: sessions-db-pv-claim
+  labels:
+    app: sessions-db
+spec:
+  storageClassName: manual
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi

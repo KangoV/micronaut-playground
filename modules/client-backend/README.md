@@ -9,6 +9,7 @@ Micronaut is a fantastic framework for creating all kinds of Java apps. This lit
 The main libraries are:
 
 * Micronaut (of course)
+* Kakfka
 * Immutables
 * Mapstruct
 * Kubernetes
@@ -22,9 +23,10 @@ The main libraries are:
 
 ## The future
 
-* Spilt into multiple modules (services)
-* Introduce messaging (Kafka)
-* Full integration tests will always run locally
+* Spilt into multiple modules (services) - DONE
+* Introduce messaging (Kafka) - DONE
+* Full integration tests will always run locally - ONGOING
+* Deploy with Helm
 
 ## Build/Run
 
@@ -78,21 +80,34 @@ BUILD SUCCESSFUL in 21s
 17 actionable tasks: 17 executed
 ```
 
-We now have a docker image:
+We now have multiple docker images created:
 ```shell
 $ docker images
-REPOSITORY             TAG           IMAGE ID       CREATED         SIZE
-kindest/node           <none>        32b8b755dee8   5 months ago    1.12GB
-testcontainers/ryuk    0.3.1         ee7515743e6f   10 months ago   12MB
-postgres               10.5-alpine   294f651dec48   3 years ago     71.6MB
-playground-micronaut   1.0.0         c260e0a9a967   51 years ago    349MB
+REPOSITORY                  TAG           IMAGE ID       CREATED        SIZE
+confluentinc/cp-kafka       latest        42807c42b958   7 weeks ago    791MB
+confluentinc/cp-zookeeper   latest        3858ad02e9d1   7 weeks ago    791MB
+testcontainers/ryuk         0.3.3         64f4b02dc986   8 weeks ago    12MB
+postgres                    10.5-alpine   294f651dec48   3 years ago    71.6MB
+<none>                      <none>        a3ff2e68b0a7   51 years ago   349MB
+<none>                      <none>        46d704f148d1   51 years ago   363MB
+<none>                      <none>        f538e26c7d2b   51 years ago   363MB
+<none>                      <none>        b18e7f50fd99   51 years ago   356MB
+<none>                      <none>        e4193900d879   51 years ago   363MB
+pg-clients-backend          1.0.0         ae08342b5700   51 years ago   363MB
+<none>                      <none>        aff17b0f00ed   51 years ago   349MB
+<none>                      <none>        c1c9a65585a6   51 years ago   356MB
+<none>                      <none>        ca06f6ee9ed8   51 years ago   349MB
+pg-sessions-backend         1.0.0         879e2113c02f   51 years ago   349MB
+pg-events-backend           1.0.0         bd726b94137c   51 years ago   356MB
 ```
 
-During the build testcontainers and postgres images would have been pulled. You can also see the kind image. Although we have build the image for the application, it is only visible to docker and not Kind. We need to load the image into Kind's internal registry so that the it can be found. Use the following command:
+During the build testcontainers, kafka and postgres images would have been pulled. You can also see the kind image. Although we have build the image for the application, it is only visible to docker and not Kind. We need to load the image into Kind's internal registry so that the it can be found. Use the following command:
+
+Note that the current script files only support deploying the "clients" microservice. This will be fixed later. Due to this, the service will probably not run as it relies on Kafka.
 
 ```shell
 $ kind load docker-image playground-micronaut:1.0.0
-Image: "playground-micronaut:1.0.0" with ID "sha256:c260e0a9a967ee7ef8c8892e1d36d0a954f2f0d75a57a647b4925fc47c27ac81" not yet present on node "kind-control-plane", loading...
+Image: "pg-clients-backend:1.0.0" with ID "sha256:c260e0a9a967ee7ef8c8892e1d36d0a954f2f0d75a57a647b4925fc47c27ac81" not yet present on node "kind-control-plane", loading...
 ```
 
 ```shell

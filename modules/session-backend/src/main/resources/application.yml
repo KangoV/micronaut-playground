@@ -1,6 +1,9 @@
 micronaut:
   application:
     name: playground-clients-backend
+endpoints:
+  health:
+    details-visible: ANONYMOUS
 datasources:
   default:
     url: ${DB_URL:`jdbc:postgresql://localhost/playground`}

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sessions-db-configmap
+  labels:
+    app: sessions-db
+data:
+  POSTGRES_DB: sessions
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres

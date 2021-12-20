@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: clients-app-service
+  labels:
+    app: clients-app
+spec:
+  type: NodePort
+  ports:
+  - port: 8081
+  selector:
+    app: clients-app
