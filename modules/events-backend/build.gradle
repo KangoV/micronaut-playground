@@ -1,20 +1,23 @@
 plugins {
+    id("io.micronaut.application") version "3.1.1"
     id("com.github.johnrengelman.shadow") version "7.0.0"
-    id("io.micronaut.application") version "2.0.4"
     id("com.adarshr.test-logger") version "2.0.0"
     id("com.google.cloud.tools.jib") version "2.8.0"
 }
 
 micronaut {
+    version("3.2.0")
     runtime("netty")
     testRuntime("junit5")
     processing {
         incremental(true)
-        annotations("io.belldj.pg.events")
+        annotations("io.belldj.pg.clients")
     }
 }
 
 dependencies {
+
+    implementation project(':modules:common')
 
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("org.immutables:value:2.8.2")

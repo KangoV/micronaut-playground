@@ -1,11 +1,12 @@
 plugins {
-    id("com.github.johnrengelman.shadow") version "7.0.0"
-    id("io.micronaut.application") version "2.0.4"
+    id("io.micronaut.application") version "3.1.1"
+    id("com.github.johnrengelman.shadow") version "7.1.1"
     id("com.adarshr.test-logger") version "2.0.0"
     id("com.google.cloud.tools.jib") version "2.8.0"
 }
 
 micronaut {
+    version("3.2.0")
     runtime("netty")
     testRuntime("junit5")
     processing {
